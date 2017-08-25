@@ -1,6 +1,7 @@
 package br.gov.df.sutic.cesta.controllers;
 
 import br.gov.df.sutic.cesta.entities.Usuario;
+import br.gov.df.sutic.cesta.persistence.AgendamentoFacade;
 import br.gov.df.sutic.cesta.persistence.UsuarioFacade;
 import br.gov.df.sutic.cesta.web.JSF;
 import java.io.Serializable;
@@ -31,6 +32,8 @@ public class UsuarioController implements Serializable
     @Inject
     private UsuarioFacade usuarioFacade;
     
+    @Inject
+    private AgendamentoFacade agendamentoFacade;
     /**
      * construtor chamando novas instacia
      * pelo metodo privado da classe. 
@@ -58,6 +61,10 @@ public class UsuarioController implements Serializable
      */
     public void removerApelido(HashMap<String, String> apelido) {
         getApelidos().remove(apelido);
+    }
+    
+    public boolean desabilitarButton(Usuario usuario) {
+        return getAgendamentoFacade().contemUsuario(usuario);
     }
     
     /**
@@ -126,6 +133,7 @@ public class UsuarioController implements Serializable
         setUsuarios(new ArrayList<>());
     }
     
+    
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public String getApelido() {
         return apelido;
@@ -170,5 +178,11 @@ public class UsuarioController implements Serializable
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
+    
+    public AgendamentoFacade getAgendamentoFacade() {
+        return agendamentoFacade;
+    }
+    
     //</editor-fold>
+  
 }

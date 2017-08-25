@@ -49,13 +49,8 @@ public class AgendamentoFacade extends AbstractFacade<Agendamento>
         cq.select(root).where(cb.equal(root.get(Agendamento_.turno), turno));
         return getEntityManager().createQuery(cq).getResultList();
     }
-    protected boolean exists(Object object, SingularAttribute attribute)
-    {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery();
-        Root root = cq.from(getEntityClass());
-        cq.select(cb.count(root)).where(cb.equal(root.get(attribute), object));
-        return ((Long) getEntityManager().createQuery(cq).getSingleResult()) > 
-                0;
+    
+    public boolean contemUsuario(Usuario usuario) {
+        return exists(usuario, Agendamento_.usuario);
     }
 }

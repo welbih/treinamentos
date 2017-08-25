@@ -209,6 +209,7 @@
                                                             <button type="button" 
                                                                 class="btn btn-default"
                                                                 name="removerUsuario"
+                                                                jsf:disabled="#{usuarioController.desabilitarButton(usuario)}"
                                                                 jsf:action="#{usuarioController.removerUsuario(usuario)}">
                                                                 <span class="glyphicon glyphicon-minus" 
                                                                       aria-hidden="true">
