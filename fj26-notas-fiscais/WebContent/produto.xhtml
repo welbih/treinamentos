@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/_template.xhtml">
+	
+		<!--  <f:view transient="true"/> -->
+	
+		<ui:define name="tituloNavegador">Produto</ui:define>
+	
+		<f:metadata>
+			<f:viewParam name="produto.id" value="#{produtoBean.produtoId}"/>
+			<f:viewAction action="#{produtoBean.carregaProduto}"/>
+		</f:metadata>
+	
+		<ui:define name="tituloPagina">Produto</ui:define>
+	
+		<ui:define name="corpo">
+	
+		<h:form id="formulario">
+			<h:messages styleClass="erros"/>
+			
+			<h2 id="titulo">
+				<h:outputText value="Novo	Produto"
+					rendered="#{empty produtoBean.produto.id}" />
+				<h:outputText value="Editar	Produto"
+					rendered="#{not empty produtoBean.produto.id}" />
+			</h2>
+			
+			
+	
+			<fieldset>
+				<LEGEND>Dados do Produto</LEGEND>
+			
+				<h:inputHidden value="#{produtoBean.produto.id}"/>
+				<h:outputText/>
+				
+				<h:inputHidden>
+					<!--  <f:validator validatorId="nomeEDescricao"/> -->
+				</h:inputHidden>
+			
+				<h:outputLabel value="Nome" for="nome" />
+				<h:inputText id="nome" value="#{produtoBean.produto.nome}" >
+					<!--  <f:validator validatorId="nomeJaExistente"/> -->
+				</h:inputText>
+	
+				<h:outputLabel value="Descricao" for="descricao" />
+				<h:inputTextarea id="descricao"
+					value="#{produtoBean.produto.descricao}" />
+	
+				<h:outputLabel value="Preço" for="preco" />
+				<h:inputText id="preco" value="#{produtoBean.produto.preco}"
+					required="true" requiredMessage="Preço obrigatório"
+						validatorMessage="O valor mínimo é 0,50">
+				
+					<f:validateDoubleRange minimum="0.50"/>
+				</h:inputText>
+	
+				<h:commandButton value="Cancelar Edição" rendered="#{not empty produtoBean.produto.id}"  
+						action="#{produtoBean.cancelaEdicao}">
+						<f:ajax execute="@this" render="@form"/>
+				</h:commandButton>
+				<h:commandButton value="Gravar" action="#{produtoBean.grava}" >
+					<f:ajax execute="@form" render="@form :tabela"/>
+				</h:commandButton>
+			
+			</fieldset>
+		</h:form>
+	
+		<h:form id="tabela">
+			
+			<fieldset>
+				<LEGEND>Listagem de Prodtos</LEGEND>
+				
+				<h:dataTable value="#{produtoBean.produtos}" var="produto" 
+							styleClass="dados" rowClasses="impar, par">
+					<h:column>
+						<f:facet name="header">
+							<h:outputLabel value="Nome" />
+						</f:facet>
+							#{produto.nome}
+						</h:column>
+		
+					<h:column>
+						<f:facet name="header">
+							<h:outputLabel value="Descricão" />
+						</f:facet>
+							#{produto.descricao}					
+						</h:column>
+		
+					<h:column>
+						<f:facet name="header">
+							<h:outputLabel value="Preço" />
+						</f:facet>
+							#{produto.preco}
+							<f:facet name="footer">
+								Total: 
+								<h:outputText value="#{produtoBean.totalDosPrecos}" />
+		
+						</f:facet>
+					</h:column>
+		
+					<h:column>						
+							<h:commandLink value="Remover"
+								action="#{produtoBean.remove(produto)}" >
+								<f:ajax render=":formulario :tabela"/>
+							</h:commandLink>	
+					</h:column>
+
+					<h:column>
+							<h:commandLink value=" Alterar">
+								<f:setPropertyActionListener value="#{produto}"
+									target="#{produtoBean.produto}" />
+								<f:ajax execute="@this" render=":formulario"/>
+							</h:commandLink>						
+					</h:column>	
+					<h:column>
+						<h:outputLink value="produto.xhtml">
+							<h:outputText value="Editar Produto via GET"/>
+							<f:param name="produto.id" value="#{produto.id}"/>
+						</h:outputLink>
+					</h:column>					
+		
+				</h:dataTable>
+				
+			</fieldset>
+		</h:form>
+		
+	</ui:define>
+	</ui:composition>
+</html>

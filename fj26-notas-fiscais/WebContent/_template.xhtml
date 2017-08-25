@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="UTF-8" />	
+	<title><ui:insert name="tituloNavegador">Sistema de notas fiscais</ui:insert></title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<body>
+	<div id="cabecalho">
+		<h:graphicImage library="imagens" name="logo-uber.png"
+			id="logoCompany" />
+		<div id="usuarioLogado">
+			<h:form rendered="#{not empty usuarioLogadoBean.usuario.login}">	
+						Logado como: #{usuarioLogadoBean.usuario.login}
+						<h:commandLink value="sair" action="#{loginBean.deslogaUsuario}"/>
+			</h:form>
+		</div>
+			<h:outputText	value="#{facesContext.application.projectStage}"/>
+	</div>
+	
+	<div id="conteudo">
+		<h:form>
+			<p:menubar rendered="#{not empty usuarioLogadoBean.usuario.login}">
+				<p:menuitem value="Produtos" url="produto.xhtml" icon="ui-icon ui-icon-document"/>
+				<p:submenu label="Notas	Fiscais">
+					<p:menuitem value="Cadastro" url="notafiscal.xhtml" />
+					<p:menuitem value="Listagem" url="listanotas.xhtml" />
+				</p:submenu>
+				<p:menuitem value="Usuairos" url="usuario.xhtml" />
+				<p:menuitem value="Sair" action="#{loginBean.deslogaUsuario}" />
+			</p:menubar>
+		</h:form>
+		
+			<h1><ui:insert name="tituloPagina">Sistema de notas fiscais</ui:insert></h1>
+		
+		<ui:insert name="corpo">
+		</ui:insert>
+	</div>
+
+	<div id="rodape">Copyright 2018. Todos os direito reservados a
+		Welber</div>
+
+</body>
+</html>

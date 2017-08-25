@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/_template.xhtml">
+		<ui:define name="corpo">
+	
+		<h:form id="formulario">
+	
+			<h2 id="titulo">
+				<h:outputText value="Novo Usuario" />					
+			</h2>
+						
+	
+			<fieldset>
+				<LEGEND>Dados do Usuario</LEGEND>	
+				
+				<h:inputHidden value="#{usuarioBean.usuario.id}"/>
+				<h:outputText/>
+			
+				<h:outputLabel value="Login" for="login" />
+				<h:inputText id="login" value="#{usuarioBean.usuario.login}" />
+	
+				<h:outputLabel value="Senha" for="senha" />
+				<h:inputSecret id="senha"
+					value="#{usuarioBean.usuario.senha}" />
+	
+				<h:commandButton value="Salvar" action="#{usuarioBean.salva}" >
+					<f:ajax execute="@form" render="@form :tabela"/>
+				</h:commandButton>
+			
+			</fieldset>
+		</h:form>
+	
+		<h:form id="tabela">
+			
+			<fieldset>
+				<LEGEND>Listagem de Usuarios</LEGEND>
+				
+				<h:dataTable value="#{usuarioBean.usuarios}" var="usuario" 
+							styleClass="dados" rowClasses="impar, par">
+					<h:column>
+						<f:facet name="header">
+							<h:outputLabel value="Login" />
+						</f:facet>
+							#{usuario.login}
+						</h:column>
+				
+					<h:column>						
+							<h:commandLink value="Remover"
+								action="#{usuarioBean.remove(usuario)}" >
+								<f:ajax render=":tabela"/>
+							</h:commandLink>	
+					</h:column>
+				</h:dataTable>
+				
+			</fieldset>
+		</h:form>
+
+	</ui:define>
+	</ui:composition>
+
+</html>

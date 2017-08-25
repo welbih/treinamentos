@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsp/jstl/core"
+	xmlns:caelum="http://java.sun.com/jsf/composite/caelum">
+
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Sistema de notas fiscais</title>
+</h:head>
+
+<h:body>
+	<h:form>
+		<h:panelGrid columns="2">
+			<caelum:campoTexto id="nome" label="Nome: " 
+				value="#{produtoBean.produto.nome}" />
+
+			<h:outputLabel value="Descricao" for="descricao" />
+			<h:inputText id="descricao" />
+
+			<h:outputLabel value="Preço" for="preco" />
+			<h:inputText id="preco" />
+
+			<h:inputText />
+			<h:commandButton value="Gravar" />
+		</h:panelGrid>
+	</h:form>
+</h:body>
+
+</html>

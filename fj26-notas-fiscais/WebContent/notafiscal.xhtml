@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/_template.xhtml">
+
+	<!-- Adicionar ajax futuramente -->
+
+	<ui:define name="corpo">
+		<h:form id="cadastro-nota" prependId="false">
+
+			<h:messages styleClass="erros"/>
+			<fieldset id="nota">
+				<legend>Dados da nota</legend>
+				<h:outputLabel value="CNPJ do Cliente:" />
+				<p:inputMask value="#{notaFiscalBean.notaFiscal.cnpj}"
+					mask="99.999.999/9999-99" />
+				<h:outputLabel value="Data:" />
+				<p:calendar pattern="dd/MM/yyyy"
+					value="#{notaFiscalBean.notaFiscal.data.time}" />
+				
+			</fieldset>
+			<h:commandButton value="Avancar" action="#{notaFiscalBean.avancar}" />
+			
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

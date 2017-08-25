@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/_template.xhtml">
+
+	<!-- Adicionar ajax futuramente -->
+
+	<ui:define name="corpo">
+		<h:form>
+
+
+			<h2>Listagem de notas</h2>
+			<p:dataTable value="#{listaNotaFiscaisBean.dataModel}" var="nota"
+					paginator="true" rows="5" lazy="true">
+				<p:column headerText="CPNJ"> 
+					#{nota.cnpj}
+				</p:column>
+
+				<p:column headerText="Data">
+					<h:outputText value="#{nota.data.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>

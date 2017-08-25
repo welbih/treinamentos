@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/_template.xhtml">
+
+	<!-- Adicionar ajax futuramente -->
+
+	<ui:define name="corpo">
+		<h:form id="cadastro-item" prependId="false">
+			<h:outputText value="CNPJ Cliente: #{notaFiscalBean.notaFiscal.cnpj}"/>
+
+					<fieldset>
+						<legend>Dados do item</legend>
+						<h:outputLabel value="Produto:" />
+						<h:selectOneMenu value="#{notaFiscalBean.idProduto}">
+							<f:selectItems value="#{produtoBean.produtos}" var="produto"
+								itemValue="#{produto.id}" itemLabel="#{produto.nome}" />
+						</h:selectOneMenu>
+						<h:outputLabel value="Quantidade:" />
+						<h:inputText value="#{notaFiscalBean.item.quantidade}" />
+
+						<h:commandButton action="#{notaFiscalBean.guardaItem}" value="Guardar Item" >
+							<f:ajax execute="@form" render="@form :table-item"/>
+						</h:commandButton>
+						
+						<h:commandButton value="Voltar" action="notafiscal?faces-redirect=true"/>
+					</fieldset>
+
+		</h:form>
+
+		<h:form prependId="false" id="table-item">
+
+			<h2>Itens adicionados a nota fiscal</h2>
+
+				<h:dataTable value="#{notaFiscalBean.notaFiscal.itens}" var="item"
+					styleClass="dados" rowClasses="impar,par"
+					binding="#{notaFiscalBean.tabela}">
+					<h:column id="a">
+						<f:facet name="header">Produto</f:facet >	
+						#{item.produto.nome}
+					</h:column>
+	
+					<h:column id="b">
+						<f:facet name="header">Valor unitário</f:facet>
+						<h:outputText value="#{item.valorUnitario}">
+							<f:convertNumber type="currency" currencySymbol="R$	"
+								locale="pt_BR" />
+						</h:outputText>
+					</h:column>
+	
+					<h:column id="c">
+						<f:facet name="header">Quantidade</f:facet>
+						#{item.quantidade}
+					</h:column>
+	
+					<h:column>
+						<f:facet name="header">Total</f:facet>
+						<h:outputText value="#{item.total}">
+							<f:convertNumber type="currency" currencySymbol="R$	"
+								locale="pt_BR" />
+						</h:outputText>
+					</h:column>
+					
+					<h:column>
+						<h:commandLink action="#{notaFiscalBean.removeItem}" value="Remove"/>
+					</h:column>
+				</h:dataTable>
+	
+				<h:commandButton value="Finalizar" action="#{notaFiscalBean.gravar}" >
+					<f:ajax execute="@form" render="@form"/>
+				</h:commandButton>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
