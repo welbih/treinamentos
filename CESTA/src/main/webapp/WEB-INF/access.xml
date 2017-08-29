@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns:b="http://www.springframework.org/schema/beans"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+    <authentication-manager>
+        <authentication-provider>
+            <jdbc-user-service authorities-by-username-query="SELECT CPF, ACESSO FROM USUARIO WHERE CPF = ?"
+                               data-source-ref="dataSource"
+                               users-by-username-query="SELECT CPF, SENHA, ATIVO FROM USUARIO WHERE CPF = ?" />
+            <password-encoder ref="encoderBean">
+                <salt-source user-property="username" />
+            </password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+    <b:bean class="br.gov.df.sutic.sistrag.controllers.AcessoController" id="ac"
+    />
+    <b:bean class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" id="encoderBean">
+        <b:constructor-arg value="512" />
+        <b:property name="iterations" value="1024" />
+    </b:bean>
+    <b:bean
+        class="org.springframework.security.authentication.event.LoggerListener"
+        id="loggerListener" />
+    <b:bean class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler" id="failureHandler">
+        <b:property name="exceptionMappings">
+            <b:props>
+                <b:prop key="org.springframework.security.authentication.BadCredentialsException">
+                    /?acesso=invalido
+                </b:prop>
+                <b:prop key="org.springframework.security.authentication.DisabledException">
+                    /?acesso=desabilitado
+                </b:prop>
+            </b:props>
+        </b:property>
+    </b:bean>
+    <global-method-security secured-annotations="enabled" />
+    <http pattern="/s/**" security="none" />
+    <http auto-config="true" use-expressions="false">
+        <access-denied-handler ref="ac" />
+        <csrf disabled="true"/>
+        <form-login authentication-failure-handler-ref="failureHandler"
+                    authentication-success-handler-ref="ac"
+                    login-page="/main/index.xhtml?acesso=negado"
+                    login-processing-url="/login" password-parameter="senha"
+                    username-parameter="cpf" />
+        <intercept-url access="ROLE_ADMINISTRADOR"
+                       pattern="/main/administracao.xhtml" />
+        <intercept-url access="ROLE_ANONYMOUS" pattern="/main/index.xhtml" />
+        <intercept-url access="ROLE_GERENTE" pattern="/main/gestao.xhtml" />
+        <intercept-url access="ROLE_GERENTE,ROLE_RELATOR"
+                       pattern="/main/preenchimento.xhtml"
+        />
+        <intercept-url access="ROLE_GERENTE" pattern="/main/visualizacao.xhtml"
+        />
+        <intercept-url access="IS_AUTHENTICATED_ANONYMOUSLY" pattern="/**" />
+        <logout invalidate-session="true"
+                logout-success-url="/main/index.xhtml?logout" />
+        <port-mappings>
+            <port-mapping http="80" https="443" />
+        </port-mappings>
+    </http>
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/cesta-db" />
+</b:beans>

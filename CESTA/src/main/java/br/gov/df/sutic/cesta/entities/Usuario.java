@@ -1,5 +1,6 @@
 package br.gov.df.sutic.cesta.entities;
 
+import br.gov.df.sutic.cesta.enums.Acesso;
 import br.gov.df.sutic.cesta.enums.Sexo;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class Usuario extends AbstractEntity
 {
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
+    private Acesso acesso;
     private boolean ativo;
     @ElementCollection
     private Set<String> apelidos;
@@ -90,6 +92,15 @@ public class Usuario extends AbstractEntity
     {
         this.senha = senha;
     }
+
+    public Acesso getAcesso() {
+        return acesso;
+    }
+
+    public void setAcesso(Acesso acesso) {
+        this.acesso = acesso;
+    }
+    
     /**
      * @param telefone the telefone to set
      */

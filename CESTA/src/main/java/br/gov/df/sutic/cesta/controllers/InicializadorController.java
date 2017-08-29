@@ -34,7 +34,6 @@ public class InicializadorController {
     @Inject
     private AgendamentoFacade agendamentoFacade;
     
-    
     @PostConstruct
     public void popularAgendamentos() {
         System.out.println("populando usuário e agendamento.");

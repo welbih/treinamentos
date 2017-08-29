@@ -31,9 +31,9 @@ public class UsuarioController implements Serializable
     
     @Inject
     private UsuarioFacade usuarioFacade;
-    
     @Inject
     private AgendamentoFacade agendamentoFacade;
+    
     /**
      * construtor chamando novas instacia
      * pelo metodo privado da classe. 
