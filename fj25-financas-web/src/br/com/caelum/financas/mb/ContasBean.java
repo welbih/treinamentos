@@ -11,6 +11,7 @@ import br.com.caelum.financas.dao.ContaDao;
 import br.com.caelum.financas.dao.GerenteDao;
 import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Gerente;
+import br.com.caelum.financas.modelo.GerenteConta;
 
 @Named
 @ViewScoped
@@ -40,9 +41,15 @@ public class ContasBean implements Serializable {
 
 	public void grava() {
 		System.out.println("Gravando a conta");
-
+		//código anterior
+//		if(gerenteId != null) {
+//			Gerente gerenteRelacionado = gDao.busca(gerenteId);
+//			this.conta.setGerente(gerenteRelacionado);
+//		}
+		
 		if(gerenteId != null) {
-			Gerente gerenteRelacionado = gDao.busca(gerenteId);
+			GerenteConta gerenteRelacionado = gDao.busca(gerenteId);
+			gerenteRelacionado.setNumeroDaConta(this.conta.getNumero());
 			this.conta.setGerente(gerenteRelacionado);
 		}
 		

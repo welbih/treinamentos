@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import br.com.caelum.financas.modelo.Gerente;
+import br.com.caelum.financas.modelo.GerenteConta;
 
 @Stateless
 public class GerenteDao {
@@ -26,9 +27,9 @@ public class GerenteDao {
 		manager.flush();
 	}
 	
-	public Gerente busca(Integer id) {
+	public GerenteConta busca(Integer id) {
 		manager.joinTransaction();
-		return manager.find(Gerente.class, id);
+		return manager.find(GerenteConta.class, id);
 	}
 	
 	public List<Gerente> lista() {

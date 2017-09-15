@@ -7,7 +7,7 @@ public class Endereco {
 
 	private String rua;
 	private String cidade;
-	private String estago;
+	private String estado;
 
 	public String getRua() {
 		return rua;
@@ -25,12 +25,12 @@ public class Endereco {
 		this.cidade = cidade;
 	}
 
-	public String getEstago() {
-		return estago;
+	public String getEstado() {
+		return estado;
 	}
 
-	public void setEstago(String estago) {
-		this.estago = estago;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 }

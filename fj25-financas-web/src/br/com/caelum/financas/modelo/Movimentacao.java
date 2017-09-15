@@ -7,16 +7,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.DecimalMin;
 
 @Entity
+@Cacheable
 public class Movimentacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,9 +30,11 @@ public class Movimentacao implements Serializable {
 	private Integer id;
 	private String descricao;
 	private Calendar data;
+	@DecimalMin(value="0.01", message="O valor deve ser acima de 1 centavo")
 	private BigDecimal valor;
 
 	@ManyToMany
+	//@JoinTable(name="categorias_da_movimentacao")
 	private List<Categoria> categorias = new ArrayList<Categoria>();
 
 	@ManyToOne
@@ -39,7 +45,7 @@ public class Movimentacao implements Serializable {
 	
 	/*// Implementar futuramente
 	public void preAltera() {
-		System.out.println("Atualizando a data da atualização");
+		System.out.println("Atualizando a data da atualizão");
 		this.setData(LocalDateTime.now());
 	}
 	*/

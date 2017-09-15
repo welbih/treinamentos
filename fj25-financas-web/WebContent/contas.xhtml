@@ -11,8 +11,9 @@
 	</ui:define>
 
 	<ui:define name="corpo">
+			<h:messages />
 		<h:form>
-			<f:validateBean disabled="true">
+			<f:validateBean disabled="false">
 				
 				<div class="form-group">
 					<h:outputText value="Id" rendered="#{contasBean.conta.id!=null}" />
